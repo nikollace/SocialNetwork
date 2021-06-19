@@ -9,13 +9,15 @@ const app = express();
 
 dotenv.config();
 
-//Sve rute iz routes/posts.js morace da idu na localhost:5000/posts
-app.use('/posts', postRoutes);
+
 
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
 app.use(cors());
+//Rute idu posle cors-a
+//Sve rute iz routes/posts.js morace da idu na localhost:5000/posts
+app.use('/posts', postRoutes);
 
 // app.get('/', (req, res) => {
 //     res.send('Hello to memories API!');
