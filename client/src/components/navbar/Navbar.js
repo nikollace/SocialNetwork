@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 
 import useStyles from './styles';
 import memories from '../../images/memories.png';
+
+import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
     const classes = useStyles();
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
+    // sa location automatski setujemo user-a
+    // jer kada se promeni ruta izvrsava se useEffect
     useEffect(() => {
         const token = user?.token;
 
@@ -17,7 +24,17 @@ const Navbar = () => {
         
         //Kada se desi poziv komponente hocemo da imamo user info
         setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [])
+    }, [location]);
+
+    const logout = () => {
+        dispatch({ type: 'LOGOUT'});
+
+        //vracamo se na main stranicu nakon logout-a
+        history.push('/');
+
+        //postavljamo user-a na null
+        setUser(null);
+    };
 
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
@@ -32,7 +49,7 @@ const Navbar = () => {
                             {user.result.name.charAt(0)}
                         </Avatar>
                         <Typography className={classes.userName} variant="h6">{user.result.name}</Typography>
-                        <Button variant="contained" className={classes.logout} color="secondary">Logout</Button>
+                        <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                     </div>
                 ) : (
                     <Button component={Link} to= "/auth" variant="contained" color="primary">Login</Button>
