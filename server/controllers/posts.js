@@ -30,7 +30,10 @@ export const updatePost = async (req, res) => {
     const post = req.body;
     
     // new: true ce nam vratiti taj post
-    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
+    // ovde ce biti greska samo ako prosledimo post jer necemo imati id u tom objektu a treba
+    // nam na frontu za currId
+    // moramo da uradimo { ...post, _id}
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
 
     res.json(updatedPost);
 };

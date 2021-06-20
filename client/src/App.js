@@ -14,9 +14,12 @@ const App = () => {
 
     const [currentId, setCurrentId] = useState(null);
 
+    //currentId ovde ide u uglaste jer cemo kada u clear funkciji u Form.js 
+    // postaviti currId na null to je promena ovde useEffect hvata
+    // i trebalo bi da fetch-uje postove opet
     useEffect(() => {
         dispatch(getPosts());
-    }, [dispatch]);
+    }, [currentId, dispatch]);
 
     return (
 
