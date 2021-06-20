@@ -23,3 +23,14 @@ export const createPost = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 };
+
+export const updatePost = async (req, res) => {
+    // posto ce request biti /posts/123 izvlacimo taj id
+    const { id: _id } = req.params;
+    const post = req.body;
+    
+    // new: true ce nam vratiti taj post
+    const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
+
+    res.json(updatedPost);
+};
