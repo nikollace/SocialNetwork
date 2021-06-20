@@ -37,3 +37,11 @@ export const updatePost = async (req, res) => {
 
     res.json(updatedPost);
 };
+
+export const deletePost = async (req, res) => {
+    const { id: _id } = req.params;
+    
+    await PostMessage.findByIdAndDelete(_id);
+
+    res.json({message: 'Post deleted successfully'});
+};
