@@ -49,8 +49,25 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
     const { id } = req.params;
 
+    //zahvaljujuci middleware-u imamo ovaj userId
+    //Ako ne postoji userId znaci da nije autentifikovan
+    if(!req.userId) return res.json({ message: 'Unauthenticated'} );
+
     const post = await PostMessage.findById(id);
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+
+    //Ideja sada je da pronadjemo index tog korisnika koji je lajkovao ili nije lajkovao post
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+
+    if(index === -1) {
+        //like a post
+        post.likes.push(req.userId);
+    } else {
+        //dislike a post
+        post.likes = post.likes.filter((id) => id !== req.userId);
+    }
+
+    //post koji smo sada prosledili sadrzi lajkove, to nam i treba
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
 
     res.json(updatedPost);
 }
