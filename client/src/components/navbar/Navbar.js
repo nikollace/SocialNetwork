@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
-
+import decode from 'jwt-decode';
 import useStyles from './styles';
 import memories from '../../images/memories.png';
 
@@ -21,13 +21,18 @@ const Navbar = () => {
         const token = user?.token;
 
         //JWT ..
-        
+        if (token) {
+            const decodedToken = decode(token);
+
+            if (decodedToken * 1000 < new Date().getTime())
+                logout();
+        }
         //Kada se desi poziv komponente hocemo da imamo user info
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]);
 
     const logout = () => {
-        dispatch({ type: 'LOGOUT'});
+        dispatch({ type: 'LOGOUT' });
 
         //vracamo se na main stranicu nakon logout-a
         history.push('/');
@@ -40,8 +45,8 @@ const Navbar = () => {
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
                 <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Memories</Typography>
-                <img src={memories} alt="memories" height="60"/>
-            </div>   
+                <img src={memories} alt="memories" height="60" />
+            </div>
             <Toolbar className={classes.toolbar}>
                 {user ? (
                     <div className={classes.profile}>
@@ -52,9 +57,9 @@ const Navbar = () => {
                         <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                     </div>
                 ) : (
-                    <Button component={Link} to= "/auth" variant="contained" color="primary">Login</Button>
+                    <Button component={Link} to="/auth" variant="contained" color="primary">Login</Button>
                 )}
-            </Toolbar>   
+            </Toolbar>
         </AppBar>
     )
 }
