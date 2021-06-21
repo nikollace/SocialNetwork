@@ -44,7 +44,7 @@ const Navbar = () => {
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
-                <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Memories</Typography>
+                <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Impressions</Typography>
                 <img src={memories} alt="memories" height="60" />
             </div>
             <Toolbar className={classes.toolbar}>
@@ -57,7 +57,7 @@ const Navbar = () => {
                         <Button variant="contained" className={classes.logout} color="secondary" onClick={logout}>Logout</Button>
                     </div>
                 ) : (
-                    <Button component={Link} to="/auth" variant="contained" color="primary">Login</Button>
+                    <Button component={Link} to="/auth" variant="contained" color="success">Login</Button>
                 )}
             </Toolbar>
         </AppBar>
