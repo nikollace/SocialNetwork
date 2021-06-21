@@ -5,7 +5,7 @@ export default (posts = [], action) => {
         case FETCH_ALL:
             return action.payload;
         case FETCH_BY_SEARCH:
-            return action.payload;
+            return action.payload.data;
         case CREATE:
             return [...posts, action.payload];
         case UPDATE:
