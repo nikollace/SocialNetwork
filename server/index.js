@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 
 import postRoutes from './routes/posts.js';
+import userRoutes from './routes/users.js';
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(cors());
 //Rute idu posle cors-a
 //Sve rute iz routes/posts.js morace da idu na localhost:5000/posts
 app.use('/posts', postRoutes);
-
+app.use('/user', userRoutes);
 // app.get('/', (req, res) => {
 //     res.send('Hello to memories API!');
 // });
