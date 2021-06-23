@@ -10,8 +10,6 @@ const app = express();
 
 dotenv.config();
 
-
-
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
@@ -20,9 +18,9 @@ app.use(cors());
 //Sve rute iz routes/posts.js morace da idu na localhost:5000/posts
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
-// app.get('/', (req, res) => {
-//     res.send('Hello to memories API!');
-// });
+app.get('/', (req, res) => {
+    res.send('Hello to HAKERI API!');
+});
 
 const PORT = process.env.PORT || 5000;
 
