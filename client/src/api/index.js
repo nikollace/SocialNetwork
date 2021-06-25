@@ -1,6 +1,6 @@
 import axios from 'axios';
-//https://social-network-by-hakeri-2.herokuapp.com/
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+//http://locahost:5000
+const API = axios.create({ baseURL: 'https://social-network-by-hakeri-2.herokuapp.com/' });
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
