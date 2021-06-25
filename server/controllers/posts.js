@@ -1,4 +1,5 @@
 import PostMessage from '../models/postMessage.js'
+import User from '../models/user.js';
 
 export const getPosts = async (req, res) => {
     const { page } = req.query;

@@ -61,6 +61,9 @@ export default makeStyles((theme) => ({
       justifyContent: 'flex-end',
       width: '160px',
     },
+    titles: {
+      marginBottom: '15px',
+    },
   },
 
   actionDiv: {
