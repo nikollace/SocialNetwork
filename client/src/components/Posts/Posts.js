@@ -7,11 +7,9 @@ import useStyles from './styles';
 const Posts = ({ setCurrentId }) => {
     //dodali smo {} u posts jer sada saljemo slozeniji objekat iz kog izvlacimo posts
     const { posts, isLoading } = useSelector(state => state.posts);
-    console.log(posts);
     const classes = useStyles();
 
     if (!posts.length && !isLoading) {
-        console.log(posts);
         return 'No posts' 
     };
 

@@ -46,6 +46,10 @@ export default makeStyles((theme) => ({
   logout: {
     marginLeft: '20px',
   },
+  friends: {
+    marginLeft: '10px',
+    textDecoration: 'none',
+  },
   userName: {
     display: 'flex',
     alignItems: 'center',

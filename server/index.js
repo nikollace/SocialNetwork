@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/users.js';
+import friendsRoutes from './routes/friends.js';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 //Sve rute iz routes/posts.js morace da idu na localhost:5000/posts
 app.use('/posts', postRoutes);
 app.use('/user', userRoutes);
+app.use('/friends', friendsRoutes);
 app.get('/', (req, res) => {
     res.send('Hello to HAKERI API!');
 });
