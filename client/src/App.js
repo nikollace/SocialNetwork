@@ -1,7 +1,8 @@
 import React from 'react';
-import {Container} from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Navbar from './components/navbar/Navbar';
 import Home from './components/home/Home';
@@ -10,7 +11,9 @@ import PostDetails from './components/PostDetails/PostDetails';
 import Friends from './components/friends/Friends';
 
 const App = () => {
-    const user = JSON.parse(localStorage.getItem('profile'));
+    const ulogovan = JSON.parse(localStorage.getItem('profile'));
+
+    const { user } = useSelector(state => state.auth);
 
     return (
         <BrowserRouter>
@@ -21,8 +24,8 @@ const App = () => {
                     <Route path="/posts" exact component={Home} />
                     <Route path="/posts/search" exact component={Home} />
                     <Route path="/posts/:id" component={PostDetails} />
-                    <Route path="/auth" component={() => (!user ? <Auth /> : <Redirect to="/posts" />)} />
-                    <Route path="/friends" component={() => (user ? <Friends /> : <Redirect to="/auth" />)} />
+                    <Route path="/friends" exact component={() => (ulogovan ? <Friends /> : <Redirect to='/auth' />)} />
+                    <Route path="/auth" exact component={() => (!user ? <Auth /> : <Redirect to='/posts' />)} />
                 </Switch>
             </Container>
         </BrowserRouter>

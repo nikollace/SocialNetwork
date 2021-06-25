@@ -5,6 +5,7 @@ import decode from 'jwt-decode';
 import useStyles from './styles';
 import memoriesLogo from '../../images/memories-Logo.png';
 import memoriesText from '../../images/memories-Text.png';
+import Auth from '../Auth/Auth';
 
 import { useDispatch } from 'react-redux';
 
@@ -60,7 +61,7 @@ const Navbar = () => {
                 ) : (
                     <Button component={Link} to="/auth" variant="contained" color="primary">Login</Button>
                 )}
-                <Link to="/friends">
+                <Link to="/friends" className={classes.link_}>
                     <Button className={classes.friends} color="secondary">
                         Friends
                     </Button>

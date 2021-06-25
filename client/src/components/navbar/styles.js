@@ -48,6 +48,8 @@ export default makeStyles((theme) => ({
   },
   friends: {
     marginLeft: '10px',
+  },
+  link_: {
     textDecoration: 'none',
   },
   userName: {
