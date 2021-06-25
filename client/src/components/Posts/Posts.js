@@ -58,51 +58,52 @@ const Posts = ({ setCurrentId }) => {
     };
 
     return (
+        user ? (
         isLoading ? <CircularProgress /> : (
             <>
                 <FormGroup>
-                    <FormControlLabel
+                    {!user?.result.admin && (<FormControlLabel
                         control={<PurpleSwitch checked={state.checkedA} onChange={handleChange} name="checkedA" />}
                         label="Show friends posts"
-                    />
+                    />)}
                     <FormControlLabel
                         control={<GreenSwitch checked={state.checkedB} onChange={handleChange} name="checkedB" />}
                         label="Show your posts"
                     />
                 </FormGroup>
-                { state.checkedA ? 
-                (
-                <>
-                <Typography className={classes.titles} variant="h2">Friends posts</Typography>
-                <Grid className={classes.container} container alignItems="stretch" spacing={3}>
-                    {posts.map((post) =>
-                        (user?.result.following.includes(post.creator)) &&
-                        (
-                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
-                                <Post post={post} setCurrentId={setCurrentId} />
+                { (state.checkedA) ?
+                    (
+                        <>
+                            <Typography className={classes.titles} variant="h2">{!user?.result.admin ? 'Friends ' : 'All '}posts</Typography>
+                            <Grid className={classes.container} container alignItems="stretch" spacing={3}>
+                                {posts.map((post) =>
+                                    (user?.result.following.includes(post.creator) || user?.result.admin) &&
+                                    (
+                                        <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
+                                            <Post post={post} setCurrentId={setCurrentId} />
+                                        </Grid>
+                                    ))}
                             </Grid>
-                        ))}
-                </Grid>
-                </>
-                ) : null }
-                { state.checkedB ? 
-                (
-                <>
-                <Typography className={classes.titles} variant="h2">Your posts</Typography>
-                <Grid className={classes.container} container alignItems="stretch" spacing={3}>
-                    {posts.map((post) =>
-                        (user?.result._id === post.creator) &&
-                        (
-                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
-                                <Post post={post} setCurrentId={setCurrentId} />
+                        </>
+                    ) : null}
+                { state.checkedB ?
+                    (
+                        <>
+                            <Typography className={classes.titles} variant="h2">Your posts</Typography>
+                            <Grid className={classes.container} container alignItems="stretch" spacing={3}>
+                                {posts.map((post) =>
+                                    (user?.result._id === post.creator) &&
+                                    (
+                                        <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
+                                            <Post post={post} setCurrentId={setCurrentId} />
+                                        </Grid>
+                                    ))}
                             </Grid>
-                        ))}
-                </Grid>
-                </>
-                ) : null }
+                        </>
+                    ) : null}
             </>
         )
-    );
+    ) : <h1>Sign In to see posts!</h1>);
 }
 
 export default Posts;
