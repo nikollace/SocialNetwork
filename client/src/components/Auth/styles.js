@@ -27,4 +27,7 @@ export default makeStyles((theme) => ({
   googleButton: {
     marginBottom: theme.spacing(2),
   },
+  captcha: {
+    margin: theme.spacing(3, 4, 2),
+  }
 }));

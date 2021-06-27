@@ -7,10 +7,11 @@ import Input from './Input';
 import Icon from './icon';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { signup, signin } from '../../actions/auth';
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const Auth = () => {
     const classes = useStyles();
@@ -26,7 +27,7 @@ const Auth = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(isSignup) {
+        if (isSignup) {
             dispatch(signup(formData, history));
         } else {
             dispatch(signin(formData, history));
@@ -52,7 +53,7 @@ const Auth = () => {
             //Dispecujemo akciju ovde, ne u actions jer nam je ovde zgodnije
             //treba nam reducer da ovo handlujemo kako valja npr u auth.js reduceru
             dispatch({ type: 'AUTH', data: { result, token } });
-            
+
             //Vracamo se na main stranicu nakon google prijavljivanja
             history.push("/");
         } catch (error) {
@@ -64,6 +65,17 @@ const Auth = () => {
         console.log(error);
         console.log("Google log in was unsuccessful. Try again later.");
     };
+
+    const [captchaValue, setCaptchaValue] = useState(false);
+
+    function recaptchaChange(value) {
+        console.log("Captcha value:", value);
+        if(value) {
+            setCaptchaValue(value);
+        } else {
+            setCaptchaValue(false)
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -86,7 +98,12 @@ const Auth = () => {
                         <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
                         {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
                     </Grid>
-                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                    <ReCAPTCHA 
+                        className={classes.captcha}
+                        sitekey="6Lfh9F0bAAAAADQkG1MhO-61IMewr7Lohq3gx_9F"
+                        onChange={recaptchaChange}
+                    />
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} disabled={!captchaValue}>
                         {isSignup ? 'Sign Up' : 'Sign In'}
                     </Button>
                     <GoogleLogin
