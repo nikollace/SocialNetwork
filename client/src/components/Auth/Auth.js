@@ -23,7 +23,7 @@ const Auth = () => {
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
     //ova funkcija nam obradjuje signIn i signUp
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if(isSignup) {
