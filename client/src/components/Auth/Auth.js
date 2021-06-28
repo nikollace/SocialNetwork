@@ -8,10 +8,11 @@ import Icon from './icon';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
+import { AUTH } from '../../constants/actionTypes';
 
 import { signup, signin } from '../../actions/auth';
 
-const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '', googleId: '' };
 
 const Auth = () => {
     const classes = useStyles();
@@ -50,11 +51,13 @@ const Auth = () => {
         const token = res?.tokenId;
 
         try {
+            setFormData({ ...formData, googleId: result?.googleId });
             //Dispecujemo akciju ovde, ne u actions jer nam je ovde zgodnije
             //treba nam reducer da ovo handlujemo kako valja npr u auth.js reduceru
-            dispatch({ type: 'AUTH', data: { result, token } });
+            dispatch(signup({ ...formData, firstName: result?.givenName, lastName: result?.familyName, email: result?.email, googleId: result?.googleId }, history));
+            dispatch({ type: AUTH, data: { result, token } });
 
-            //Vracamo se na main stranicu nakon google prijavljivanja
+            // //Vracamo se na main stranicu nakon google prijavljivanja
             history.push("/");
         } catch (error) {
             console.log(error);
@@ -70,7 +73,7 @@ const Auth = () => {
 
     function recaptchaChange(value) {
         console.log("Captcha value:", value);
-        if(value) {
+        if (value) {
             setCaptchaValue(value);
         } else {
             setCaptchaValue(false)
@@ -98,7 +101,7 @@ const Auth = () => {
                         <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
                         {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
                     </Grid>
-                    <ReCAPTCHA 
+                    <ReCAPTCHA
                         className={classes.captcha}
                         sitekey="6Lfh9F0bAAAAADQkG1MhO-61IMewr7Lohq3gx_9F"
                         onChange={recaptchaChange}

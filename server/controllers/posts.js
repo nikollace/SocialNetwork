@@ -12,7 +12,7 @@ export const getPosts = async (req, res) => {
         const total = await PostMessage.countDocuments({});
         const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
-        res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+        res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -36,9 +36,9 @@ export const getPostsBySearch = async (req, res) => {
     try {
         //mora i pod " " ne ' ' !!!!!!!!!!!!!
         const title = new RegExp(searchQuery, "i"); // "i" znaci ignore case (da ne bude case sensitive)
-        
-        const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',')}} ]});
-        
+
+        const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] });
+
         res.json({ data: posts });
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -113,7 +113,7 @@ export const commentPost = async (req, res) => {
 
     const post = await PostMessage.findById(id);
     post.comments.push(value);
-    
+
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
 
     res.json(updatedPost);

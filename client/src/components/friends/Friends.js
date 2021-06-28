@@ -8,7 +8,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPosts, follow } from '../../actions/user';
+import { follow } from '../../actions/follow';
+import { getUsers } from '../../actions/user';
 import { Typography, CircularProgress } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -16,28 +17,20 @@ import RemoveIcon from '@material-ui/icons/Remove';
 const Friends = () => {
     const classes = useStyles();
     let user = JSON.parse(localStorage.getItem('profile'));
+    let following = JSON.parse(localStorage.getItem('following'));
 
-    const { isLoading, users, kod } = useSelector(state => state.users);
+    const { isLoading, users } = useSelector(state => state.users);
+    const { newFollowing } = useSelector(state => state.following);
     const dispatch = useDispatch();
-    const [nikola, setNikola] = useState(user);
 
     useEffect(() => {
-        dispatch(getPosts());
-    }, [dispatch]);
+        dispatch(getUsers());
+    }, [dispatch, newFollowing]);
 
-    useEffect(() => {
-        if (kod != undefined && kod != null) {
-            user.result = kod;
-            
-            localStorage.setItem('profile', JSON.stringify(user));    
-        }
-        user = JSON.parse(localStorage.getItem('profile'));
-        setNikola(user);
-    }, [kod]);
-
-    if (!users.length && !isLoading) return <h1>There is no users!</h1>;
+    if (!users.length && !isLoading) return <h1>There are no users yet!</h1>;
 
     const handleFollow = (nas_id, id) => {
+        nas_id = nas_id ? nas_id : user?.result?.googleId;
         dispatch(follow(nas_id, id));
     }
 
@@ -55,7 +48,7 @@ const Friends = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {users.map((u) => (user?.result._id !== u._id &&
+                            {users.map((u) => (user?.result?.email !== u.email &&
                                 (
                                     <TableRow key={u?.name}>
                                         <TableCell component="th" scope="row">
@@ -64,10 +57,10 @@ const Friends = () => {
                                         <TableCell align="right">{u?.email}</TableCell>
                                         <TableCell align="right">
                                             {
-                                                !user?.result.following.includes(u._id) ?
-                                                    <AddIcon onClick={() => handleFollow(user?.result._id, u._id)} />
+                                                !following?.following?.includes(u._id) ?
+                                                    <AddIcon color="primary" onClick={() => handleFollow(user?.result._id, u._id)} />
                                                     :
-                                                    <RemoveIcon onClick={() => handleFollow(user?.result._id, u._id)} />
+                                                    <RemoveIcon color="secondary" onClick={() => handleFollow(user?.result._id, u._id)} />
                                             }
                                         </TableCell>
                                     </TableRow>

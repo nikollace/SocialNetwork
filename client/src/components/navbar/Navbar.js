@@ -5,7 +5,6 @@ import decode from 'jwt-decode';
 import useStyles from './styles';
 import memoriesLogo from '../../images/memories-Logo.png';
 import memoriesText from '../../images/memories-Text.png';
-import Auth from '../Auth/Auth';
 
 import { useDispatch } from 'react-redux';
 
