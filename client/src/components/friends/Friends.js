@@ -30,7 +30,6 @@ const Friends = () => {
     if (!users.length && !isLoading) return <h1>There are no users yet!</h1>;
 
     const handleFollow = (nas_id, id) => {
-        nas_id = nas_id ? nas_id : user?.result?.googleId;
         dispatch(follow(nas_id, id));
     }
 

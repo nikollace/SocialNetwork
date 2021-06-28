@@ -27,17 +27,13 @@ export const signin = async (req, res) => {
 }
 
 export const signup = async (req, res) => {
-    const { email, password, confirmPassword, firstName, lastName, googleId } = req.body;
-
-    console.log({ email, password, confirmPassword, firstName, lastName, googleId });
+    const { email, password, confirmPassword, firstName, lastName, googleId, token } = req.body;
 
     const existingUser = await User.findOne({ email });
 
-    if (existingUser) return res.status(400).json({ message: "User already exists!" });
-
     try {
         if (googleId !== '') {
-            console.log('uso u if');
+            if (existingUser) return res.status(200).json({ result: existingUser, token });
 
             // salt drugi parametar odnosno dificulty, obicno se stavlja 12
             const hashedPassword = await bcrypt.hash(googleId, 12);
@@ -47,12 +43,12 @@ export const signup = async (req, res) => {
             const existingFollow = await Following.findOne({ user: googleId });
 
             if (!existingFollow)
-                await Following.create({ user: googleId, following: [] });
+                await Following.create({ user: result._id, following: [] });
 
-            res.status(200).json({ result });
+            res.status(200).json({ result, token });
         }
         else {
-            console.log('uso u else');
+            if (existingUser) return res.status(400).json({ message: "User already exists!" });
 
             if (password !== confirmPassword) return res.status(400).json({ message: "Passwords don't match." });
 

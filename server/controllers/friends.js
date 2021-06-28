@@ -12,6 +12,7 @@ export const follow = async (req, res) => {
     const { id } = req.params;
     const { nas_id } = req.body;
 
+
     var follow = await Following.findOne({ user: nas_id });
 
     if (follow.following.includes(id)) {

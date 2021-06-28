@@ -27,7 +27,7 @@ const Form = ({ currentId, setCurrentId }) => {
         if (currentId) {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
         } else {
-            dispatch(createPost({ ...postData, name: user?.result?.name }));
+            dispatch(createPost({ ...postData, name: user?.result?.name, myId: user?.result?._id }));
         }
 
         clear();

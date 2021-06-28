@@ -8,7 +8,6 @@ import Icon from './icon';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
-import { AUTH } from '../../constants/actionTypes';
 
 import { signup, signin } from '../../actions/auth';
 
@@ -54,11 +53,11 @@ const Auth = () => {
             setFormData({ ...formData, googleId: result?.googleId });
             //Dispecujemo akciju ovde, ne u actions jer nam je ovde zgodnije
             //treba nam reducer da ovo handlujemo kako valja npr u auth.js reduceru
-            dispatch(signup({ ...formData, firstName: result?.givenName, lastName: result?.familyName, email: result?.email, googleId: result?.googleId }, history));
-            dispatch({ type: AUTH, data: { result, token } });
+            dispatch(signup({ ...formData, firstName: result?.givenName, lastName: result?.familyName, email: result?.email, googleId: result?.googleId, token: token }, history));
+            // dispatch({ type: AUTH, data: { result, token } });
 
             // //Vracamo se na main stranicu nakon google prijavljivanja
-            history.push("/");
+            // history.push("/");
         } catch (error) {
             console.log(error);
         }

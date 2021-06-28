@@ -49,10 +49,7 @@ const Posts = ({ setCurrentId }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (user?.result?._id)
-            dispatch(getFollowers(user?.result?._id));
-        else
-            dispatch(getFollowers(user?.result?.googleId));
+        dispatch(getFollowers(user?.result?._id));
     }, [])
 
     const [state, setState] = useState({
@@ -107,7 +104,7 @@ const Posts = ({ setCurrentId }) => {
                                 <Typography className={classes.titles} variant="h2">Your posts</Typography>
                                 <Grid className={classes.container} container alignItems="stretch" spacing={3}>
                                     {posts.map((post) =>
-                                        (user?.result._id === post.creator || user?.result?.googleId === post.creator) &&
+                                        (user?.result._id === post.creator) &&
                                         (
                                             <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
                                                 <Post post={post} setCurrentId={setCurrentId} />
