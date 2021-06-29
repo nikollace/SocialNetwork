@@ -1,7 +1,7 @@
 import axios from 'axios';
 //http://localhost:5000
 //https://iphotogramy.herokuapp.com/
-const API = axios.create({ baseURL: 'http://localhost:5000' });
+const API = axios.create({ baseURL: 'https://iphotogramy.herokuapp.com/' });
 
 API.interceptors.request.use((req) => {
     if (localStorage.getItem('profile')) {
