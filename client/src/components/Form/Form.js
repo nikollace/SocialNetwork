@@ -20,22 +20,29 @@ const Form = ({ currentId, setCurrentId }) => {
         if (post) setPostData(post);
     }, [post])
 
+    const [showValidate, setShowValidate] = useState(false);
+
     const handleSubmit = (e) => {
         //spreciti osvezavanje browsera
         e.preventDefault();
 
         if (currentId) {
             dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
+            clear();
         } else {
-            dispatch(createPost({ ...postData, name: user?.result?.name, myId: user?.result?._id }));
+            if (postData.title && postData.message && postData.tags && !postData.tags.includes('')) {
+                dispatch(createPost({ ...postData, name: user?.result?.name, myId: user?.result?._id }));
+                clear();
+            }
+            else
+                setShowValidate(true);
         }
-
-        clear();
     }
 
     const clear = () => {
         setCurrentId(null);
         setPostData({ title: '', message: '', tags: '', selectedFile: '' });
+        setShowValidate(false);
     }
 
     if (!user?.result?.name) {
@@ -50,13 +57,16 @@ const Form = ({ currentId, setCurrentId }) => {
 
     return (
         <Paper className={classes.paper} elevation={6}>
-            <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
+            <form autoComplete="off" className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography cariant="h6">
                     {currentId ? 'Editing' : 'Creating'} a Memory
                 </Typography>
                 <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+                <Typography variant="h6" color="secondary">{!postData.title && showValidate ? "Title can't be empty" : null}</Typography>
                 <TextField name="message" variant="outlined" label="Message" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
+                <Typography variant="h6" color="secondary">{!postData.message && showValidate ? "Message can't be empty" : null}</Typography>
                 <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
+                <Typography variant="h6" color="secondary">{(!postData.tags || postData.tags.includes('')) && showValidate ? "Tags can't be empty" : null}</Typography>
                 <div className={classes.fileInput}>
                     <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                 </div>

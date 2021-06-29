@@ -1,4 +1,4 @@
-import { AUTH } from '../constants/actionTypes';
+import { AUTH, ERROR } from '../constants/actionTypes';
 import * as api from '../api';
 
 export const signin = (formData, history) => async (dispatch) => {
@@ -10,7 +10,7 @@ export const signin = (formData, history) => async (dispatch) => {
         // vrati ga na main stranicu
         history.push('/');
     } catch (error) {
-        console.log(error);
+        dispatch({ type: ERROR, error })
     }
 };
 
@@ -20,10 +20,10 @@ export const signup = (formData, history) => async (dispatch) => {
         const { data } = await api.signUp(formData);
 
         dispatch({ type: AUTH, data });
-        
+
         // vrati ga na main stranicu
         history.push('/');
     } catch (error) {
-        console.log(error);
+        dispatch({ type: ERROR, error })
     }
 };

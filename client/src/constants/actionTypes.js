@@ -9,9 +9,11 @@ export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH';
 export const FOLLOW = 'FOLLOW';
 export const GET_FOLLOWERS = 'GET_FOLLOWERS';
 
-export const START_LOADING='START_LOADING';
-export const END_LOADING='END_LOADING';
+export const START_LOADING = 'START_LOADING';
+export const END_LOADING = 'END_LOADING';
 
 export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const GET_USERS = 'GET_USERS';
+
+export const ERROR = 'ERROR';

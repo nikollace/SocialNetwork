@@ -91,7 +91,7 @@ const Posts = ({ setCurrentId }) => {
                                     {posts.map((post) =>
                                         (following?.following?.includes(post.creator) || user?.result?.admin) &&
                                         (
-                                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
+                                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={4}>
                                                 <Post post={post} setCurrentId={setCurrentId} />
                                             </Grid>
                                         ))}
@@ -106,7 +106,7 @@ const Posts = ({ setCurrentId }) => {
                                     {posts.map((post) =>
                                         (user?.result._id === post.creator) &&
                                         (
-                                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={3}>
+                                            <Grid key={post._id} item xs={12} sm={12} md={6} lg={4}>
                                                 <Post post={post} setCurrentId={setCurrentId} />
                                             </Grid>
                                         ))}

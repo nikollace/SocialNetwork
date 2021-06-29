@@ -29,5 +29,8 @@ export default makeStyles((theme) => ({
   },
   captcha: {
     margin: theme.spacing(3, 4, 2),
+  },
+  error: {
+    margin: 'auto'
   }
 }));

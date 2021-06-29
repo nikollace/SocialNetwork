@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin } from 'react-google-login';
 import useStyles from './styles';
 import Input from './Input';
 import Icon from './icon';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ReCAPTCHA from "react-google-recaptcha";
 
@@ -23,7 +23,10 @@ const Auth = () => {
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
+    const { authData } = useSelector(state => state.auth)
+    const [error, setError] = useState('')
     //ova funkcija nam obradjuje signIn i signUp
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -33,6 +36,13 @@ const Auth = () => {
             dispatch(signin(formData, history));
         }
     };
+
+    useEffect(() => {
+        if (authData)
+            setError('Invalid credentials!');
+        else
+            setError('');
+    }, [authData])
 
     //popunjavamo state promenama na formi
     //zgodno je sto radi sa beskonacnim brojem polja
@@ -99,6 +109,7 @@ const Auth = () => {
                         <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
                         <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
                         {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
+                        <Typography variant="h6" color="secondary" className={classes.error}>{error}</Typography>
                     </Grid>
                     <ReCAPTCHA
                         className={classes.captcha}
